@@ -42,9 +42,6 @@ app.get('/customers', function(req,res,next) {
 	});
 });
 
-
-       
- 
    
 //to display all menu items
 app.get('/menu', function(req,res,next) {
@@ -76,9 +73,27 @@ app.get('/orders', function(req,res,next) {
 	res.render('orders', context);
 });
 
+//to display all employees
 app.get('/employees', function(req,res,next) {
 	var context = {};
-	res.render('employees', context);
+	var createString = "SELECT id, fname, lname FROM employees;";
+	mysql.pool.query(createString, function(err, rows, fields){
+		if(err){
+			next(err);
+			return;
+		}
+		var params = [];
+		for(var row in rows){
+			var addItem = {
+				'id':rows[row].id,
+				'fname':rows[row].fname,
+				'lname':rows[row].lname
+			};
+			params.push(addItem);
+		}
+		context.results = params;
+		res.render('employees',context);
+	});
 });
 
 app.use(function(req,res){
