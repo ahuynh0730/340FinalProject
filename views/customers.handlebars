@@ -1,0 +1,32 @@
+<h1> <a href = "/"> TKO Restaurant </a> </h1>
+
+<h3> Customers Page </h3>
+
+<table>
+	<tr>
+		<th> ID </th>
+		<th> First Name </th>
+		<th> Last Name </th>
+		<th> Address </th>
+		<th> City </th>
+		<th> State </th>
+		<th> Zip Code </th>
+	</tr>
+	
+	
+
+	{{#if results}}
+		{{#each results}}
+			<tr>
+				<td> {{this.id}} </td>
+				<td> {{this.fname}} </td>
+				<td> {{this.lname}} </td>
+				<td> {{this.address}} </td>
+				<td> {{this.city}} </td>
+				<td> {{this.state}} </td>
+				<td> {{this.zipcode}} </td>
+			</tr>
+		{{/each}}
+    {{/if}}
+	
+</table>

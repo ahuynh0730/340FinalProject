@@ -1,0 +1,28 @@
+<h1> <a href = "/"> TKO Restaurant </a> </h1>
+
+<h3> Menu Page </h3>
+
+<table>
+	<tr>
+		<th> ID </th>
+		<th> Item Name </th>
+		<th> Type </th>
+		<th> Price </th>
+		<th> Quantity </th>
+	</tr>
+	
+	
+
+	{{#if results}}
+		{{#each results}}
+			<tr>
+				<td> {{this.id}} </td>
+				<td> {{this.item_name}} </td>
+				<td> {{this.type}} </td>
+				<td> {{this.price}} </td>
+				<td> {{this.quantity}} </td>
+			</tr>
+		{{/each}}
+    {{/if}}
+	
+</table>
