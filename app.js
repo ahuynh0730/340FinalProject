@@ -7,6 +7,9 @@ var handlebars = require('express-handlebars').create({defaultLayout:'main'});
 app.engine('handlebars', handlebars.engine);
 app.set('view engine', 'handlebars');
 app.set('port', process.argv[2]);
+app.use(bodyParser.urlencoded({extended: false}));
+app.use(bodyParser.json());
+app.use(express.static("public"));
 
 
 //to render the homepage
@@ -121,8 +124,25 @@ app.get('/employees', function(req,res,next) {
 //to add a new customer
 app.get('/add_customer', function(req, res, next){
 	var context = {};
-	res.render('add_customer', context);
+	mysql.pool.query("INSERT INTO customers (fname, lname, address, city, state, zipcode) VALUES(?, ?, ?, ?, ?, ?)",
+		[req.query.fname, 
+		req.query.lname,
+		req.query.address,
+		req.query.city,
+		req.query.state,
+		req.query.zipcode],
+		function(err,result){
+			if(err){
+				next(err);
+				return;
+			}
+			context.inserted = result.insertId;
+			res.send(JSON.stringify(context));
+		}
+	);
 });
+
+
 
 
 app.use(function(req,res){

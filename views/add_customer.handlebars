@@ -2,12 +2,12 @@
 
 <h3> Adding a New Customer </h3>
 
-<form>
-	First Name: <input type="text" name = "firstName"> <br> <br>
-	Last Name: <input type="text" name = "lastName"> <br> <br>
+<form id="addCustomer">
+	First Name: <input type="text" name = "fname"> <br> <br>
+	Last Name: <input type="text" name = "lname"> <br> <br>
 	Address: <input type="text" name = "address"> <br> <br>
 	City: <input type="text" name = "city"> <br> <br>
-	State: <select>
+	State: <select name = "state">
 				<option value="AL">Alabama</option>
 				<option value="AK">Alaska</option>
 				<option value="AZ">Arizona</option>
@@ -60,7 +60,8 @@
 				<option value="WI">Wisconsin</option>
 				<option value="WY">Wyoming</option>
 		</select>	<br> <br>
-			Zipcode: <input type="number" pattern=[0-9]{5}">
+			Zipcode: <input type="text" pattern="[0-9]{5}" name = "zipcode"> <br> <br>
+			<input type="submit" name="Add Customer" value = "Add Customer" id="addCustomerButton">
 </form>
-	
+
 	
