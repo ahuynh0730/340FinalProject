@@ -29,41 +29,7 @@ document.getElementById('addCustomerButton').addEventListener('click',function(e
 			var id = response.inserted;
 
 			
-			var table = document.getElementById("customerTable");   
-
 			
-			var row = table.insertRow(-1);                          
-
-			
-            
-			
-            
-            	
-
-			var updateData = document.createElement('td');              
-			var updateDataLink = document.createElement('a');
-			updateDataLink.setAttribute('href','/updateTable?id=' + id);      
-			var updateButton = document.createElement('input');         
-			updateButton.setAttribute('value','Update Customer');       
-            updateButton.setAttribute('type','button');         
-			updateDataLink.appendChild(updateButton);
-			updateData.appendChild(updateDataLink);
-			row.appendChild(updateData);                                     
-            
-   
-			var deleteCell = document.createElement('td');                 
-			var deleteButton = document.createElement('input');             
-			deleteButton.setAttribute('type','button');
-			deleteButton.setAttribute('name','delete');                     
-			deleteButton.setAttribute('value','Delete');
-			deleteButton.setAttribute('onClick', 'deleteData("dataTable",' + id +')');
-			var deleteHidden = document.createElement('input');             
-			deleteHidden.setAttribute('type','hidden');
-			deleteHidden.setAttribute('id', 'delete' + id);
-			deleteCell.appendChild(deleteButton);                           
-			deleteCell.appendChild(deleteHidden);
-			row.appendChild(deleteCell);                                    
-
 		}
 		else {
 	    	console.log("error");
@@ -71,7 +37,6 @@ document.getElementById('addCustomerButton').addEventListener('click',function(e
 	});
 	
 	
-	req.send("/add_customer?" + parameters);
-	event.preventDefault(); 	
+	req.send("/add_customer?" + parameters);	
 });
 
