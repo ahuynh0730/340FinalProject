@@ -70,7 +70,27 @@ app.get('/menu', function(req,res,next) {
 
 app.get('/orders', function(req,res,next) {
 	var context = {};
-	res.render('orders', context);
+	var createString = "SELECT id, customer_id, employee_id, is_delivery, order_date, delivery_date FROM orders;";
+	mysql.pool.query(createString, function(err, rows, fields){
+		if(err){
+			next(err);
+			return;
+		}
+		var params = [];
+		for(var row in rows){
+			var addItem = {
+				'id':rows[row].id,
+				'customer_id':rows[row].customer_id,
+				'employee_id':rows[row].employee_id,
+				'is_delivery':rows[row].is_delivery,
+				'order_date':rows[row].order_date,
+				'delivery_date':rows[row].delivery_date
+			};
+			params.push(addItem);
+		}
+		context.results = params;
+		res.render('orders',context);
+	});
 });
 
 //to display all employees

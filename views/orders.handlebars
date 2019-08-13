@@ -2,3 +2,32 @@
 
 <h3> Orders Page </h3>
 
+<table>
+	<tr>
+		<th> ID </th>
+		<th> Customer ID </th>
+		<th> Employee ID </th>
+		<th> Is Delivery </th>
+		<th> Order Date </th>
+		<th> Delivery Date </th>
+	</tr>
+	
+	
+
+	{{#if results}}
+		{{#each results}}
+			<tr>
+				<td> {{this.id}} </td>
+				<td> {{this.customer_id}} </td>
+				<td> {{this.employee_id}} </td>
+				<td> {{this.is_delivery}} </td>
+				<td> {{this.order_date}} </td>
+				<td> {{this.delivery_date}} </td>
+			</tr>
+		{{/each}}
+    {{/if}}
+	
+</table>
+
+
+
