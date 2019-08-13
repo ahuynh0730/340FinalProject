@@ -161,6 +161,23 @@ app.get('/add_menu_item', function(req, res, next){
 	);
 });
 
+//to add a new employee
+app.get('/add_employee', function(req, res, next){
+	var context = {};
+	mysql.pool.query("INSERT INTO employees (fname, lname) VALUES(?, ?)",
+		[req.query.fname, 
+		req.query.lname,],
+		function(err,result){
+			if(err){
+				next(err);
+				return;
+			}
+			context.inserted = result.insertId;
+			res.send(JSON.stringify(context));
+		}
+	);
+});
+
 
 
 

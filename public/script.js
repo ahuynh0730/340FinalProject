@@ -46,6 +46,7 @@ if (validButton){
 //for when add menu item button is pushed
 var validButton = document.getElementById('addMenuButton');
 if (validButton){
+
 	document.getElementById('addMenuButton').addEventListener('click',function(event){      	
 		
 		var addMenuItem = document.getElementById("addMenuItem");               
@@ -83,5 +84,48 @@ if (validButton){
 		
 		
 		req.send("/add_menu_item?" + parameters);	
+	});
+};
+
+//for when add employee button is pushed
+var validButton = document.getElementById('addEmployee');
+if (validButton){
+
+	document.getElementById('addEmployeeButton').addEventListener('click',function(event){      	
+		
+		var addEmployee = document.getElementById("addEmployee");               
+
+		
+		var req = new XMLHttpRequest();
+
+		
+		var parameters =	"fname="+addEmployee.elements.fname.value +    
+							"&lname="+addEmployee.elements.lname.value;
+
+
+		
+
+		
+		req.open("GET", "/add_employee?" + parameters, true);                
+		req.setRequestHeader('Content-Type','application/x-www-form-urlencoded');
+
+		
+		req.addEventListener('load', function(){                        
+			if(req.status >= 200 && req.status < 400){
+
+				
+				var response = JSON.parse(req.responseText);            
+				var id = response.inserted;
+
+				
+				
+			}
+			else {
+				console.log("error");
+			}
+		});
+		
+		
+		req.send("/add_employee?" + parameters);	
 	});
 };

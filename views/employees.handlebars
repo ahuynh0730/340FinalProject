@@ -1,5 +1,12 @@
 <h1> <a href = "/"> TKO Restaurant </a> </h1>
 
+<h3> Adding a New Customer </h3>
+
+<form id="addEmployee" action="http://flip3.engr.oregonstate.edu:6765">
+	First Name: <input type="text" name = "fname" id="fname"> <br> <br>
+	Last Name: <input type="text" name = "lname" id="lname"> <br> <br>
+	<input type="submit" name="Add Employee" value = "Add Employee" id="addEmployeeButton"> </a>
+
 <h3> Employees Page </h3>
 
 <table>
@@ -17,6 +24,11 @@
 				<td> {{this.id}} </td>
 				<td> {{this.fname}} </td>
 				<td> {{this.lname}} </td>
+				<td><a href="/updateTable?id={{this.id}}"><input type="button" value="Update"></a></td>
+                <td>
+                    <input type="button" name="delete" value="Delete" onClick="deleteData('dataTable',{{this.id}})">
+                    <input type="hidden" id="delete{{this.id}}">
+                </td>
 			</tr>
 		{{/each}}
     {{/if}}
