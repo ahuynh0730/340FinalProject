@@ -1,5 +1,20 @@
 <h1> <a href = "/"> TKO Restaurant </a> </h1>
 
+<h3> Adding a New Menu Item </h3>
+
+<form id="addMenuItem" action="http://flip3.engr.oregonstate.edu:6765">
+	Item Name: <input type="text" name = "item_name" id="item_name"> <br> <br>
+	Item Type: 	<select name = "type" id="type">
+					<option value = "Food"> Food </option>
+					<option value = "Beverage"> Beverage </option>
+					<option value = "Alcohol"> Alcohol </option>
+				</select>	<br> <br>
+		
+	Price: <input type="number" name = "price" id="price" step=".01"> <br> <br>
+	Quantity: <input type="number" name = "quantity" id="quantity" step="1"> <br> <br>
+	<input type="submit" name="addMenuItem" value = "Add Menu Item" id="addMenuButton"> </a>
+</form>
+
 <h3> Menu Page </h3>
 
 <table>
@@ -21,6 +36,11 @@
 				<td> {{this.type}} </td>
 				<td> {{this.price}} </td>
 				<td> {{this.quantity}} </td>
+				<td><a href="/updateTable?id={{this.id}}"><input type="button" value="Update"></a></td>
+                <td>
+                    <input type="button" name="delete" value="Delete" onClick="deleteData('dataTable',{{this.id}})">
+                    <input type="hidden" id="delete{{this.id}}">
+				</td>
 			</tr>
 		{{/each}}
     {{/if}}

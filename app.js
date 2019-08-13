@@ -142,6 +142,25 @@ app.get('/add_customer', function(req, res, next){
 	);
 });
 
+//to add a new menu item
+app.get('/add_menu_item', function(req, res, next){
+	var context = {};
+	mysql.pool.query("INSERT INTO menu_items(item_name, type, price, quantity) VALUES(?, ?, ?, ?)",
+		[req.query.item_name, 
+		req.query.type,
+		req.query.price,
+		req.query.quantity],
+		function(err,result){
+			if(err){
+				next(err);
+				return;
+			}
+			context.inserted = result.insertId;
+			res.send(JSON.stringify(context));
+		}
+	);
+});
+
 
 
 
