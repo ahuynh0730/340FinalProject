@@ -135,8 +135,15 @@ function deleteData(tableId, id){
     
 	var req = new XMLHttpRequest();
 	
-
-	req.open("GET", "/delete_customer?id=" + id, true);              
+	switch(tableId){
+		case "customers":
+			req.open("GET", "/delete_customer?id=" + id, true); 
+			break;
+		case "employees":
+			req.open("GET", "/delete_employee?id=" + id, true); 
+			break;
+		
+	}		
 
 	req.addEventListener("load",function(){
 		if(req.status >= 200 && req.status < 400){          
@@ -145,7 +152,14 @@ function deleteData(tableId, id){
 		    console.log('error');
 		}
 	});
-
-	req.send("/delete_customer?id=" + id);                          
+	
+	switch(tableId){
+		case "customers":
+			req.send("/delete_customer?id=" + id); 
+			break;
+		case "employees":
+			req.send("/delete_employee?id=" + id); 
+			break;
+	}			
 
 }

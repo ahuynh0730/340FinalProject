@@ -9,7 +9,7 @@
 
 <h3> Employees Page </h3>
 
-<table id="dataTable">
+<table id="employees">
 	<tr>
 		<th> ID </th>
 		<th> First Name </th>
@@ -26,7 +26,7 @@
 				<td> {{this.lname}} </td>
 				<td><a href="/updateTable?id={{this.id}}"><input type="button" value="Update"></a></td>
                 <td>
-                    <input type="button" name="delete" value="Delete" onClick="deleteData('dataTable',{{this.id}})">
+                    <a href = "/"> <input type="button" name="delete" value="Delete" onClick="deleteData('employees',{{this.id}})">
                     <input type="hidden" id="delete{{this.id}}">
                 </td>
 			</tr>

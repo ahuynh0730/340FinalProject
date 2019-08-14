@@ -191,6 +191,19 @@ app.get('/delete_customer', function(req, res, next) {
     });
 });
 
+//to delete from employee table
+app.get('/delete_employee', function(req, res, next) {
+    var context = {};    
+    mysql.pool.query("DELETE FROM employees WHERE id = ?", 	
+        [req.query.id], 
+        function(err, result) {
+            if(err){
+                next(err);
+                return;
+            }
+    });
+});
+
 
 app.use(function(req,res){
   res.status(404);
