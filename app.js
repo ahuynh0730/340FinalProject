@@ -204,6 +204,19 @@ app.get('/delete_employee', function(req, res, next) {
     });
 });
 
+//to delete from menu items
+app.get('/delete_menu_item', function(req, res, next) {
+    var context = {};    
+    mysql.pool.query("DELETE FROM menu_items WHERE id = ?", 	
+        [req.query.id], 
+        function(err, result) {
+            if(err){
+                next(err);
+                return;
+            }
+    });
+});
+
 
 app.use(function(req,res){
   res.status(404);

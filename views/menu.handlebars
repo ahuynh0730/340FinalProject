@@ -17,7 +17,7 @@
 
 <h3> Menu Page </h3>
 
-<table>
+<table id="menu_items">
 	<tr>
 		<th> ID </th>
 		<th> Item Name </th>
@@ -38,7 +38,7 @@
 				<td> {{this.quantity}} </td>
 				<td><a href="/updateTable?id={{this.id}}"><input type="button" value="Update"></a></td>
                 <td>
-                    <input type="button" name="delete" value="Delete" onClick="deleteData('dataTable',{{this.id}})">
+                    <a href = "/"> <input type="button" name="delete" value="Delete" onClick="deleteData('menu_items',{{this.id}})">
                     <input type="hidden" id="delete{{this.id}}">
 				</td>
 			</tr>

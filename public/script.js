@@ -130,7 +130,7 @@ if (validButton){
 	});
 };
 
-//for deleting customers
+//for deleting data
 function deleteData(tableId, id){                                
     
 	var req = new XMLHttpRequest();
@@ -141,6 +141,9 @@ function deleteData(tableId, id){
 			break;
 		case "employees":
 			req.open("GET", "/delete_employee?id=" + id, true); 
+			break;
+		case "menu_items":
+			req.open("GET", "/delete_menu_item?id=" + id, true); 
 			break;
 		
 	}		
@@ -159,6 +162,9 @@ function deleteData(tableId, id){
 			break;
 		case "employees":
 			req.send("/delete_employee?id=" + id); 
+			break;
+		case "menu_items":
+			req.send("/delete_menu_item?id=" + id); 
 			break;
 	}			
 
