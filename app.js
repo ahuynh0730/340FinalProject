@@ -178,7 +178,18 @@ app.get('/add_employee', function(req, res, next){
 	);
 });
 
-
+//to delete from customer table
+app.get('/delete_customer', function(req, res, next) {
+    var context = {};    
+    mysql.pool.query("DELETE FROM customers WHERE id = ?", 	
+        [req.query.id], 
+        function(err, result) {
+            if(err){
+                next(err);
+                return;
+            }
+    });
+});
 
 
 app.use(function(req,res){

@@ -129,3 +129,23 @@ if (validButton){
 		req.send("/add_employee?" + parameters);	
 	});
 };
+
+//for deleting customers
+function deleteData(tableId, id){                                
+    
+	var req = new XMLHttpRequest();
+	
+
+	req.open("GET", "/delete_customer?id=" + id, true);              
+
+	req.addEventListener("load",function(){
+		if(req.status >= 200 && req.status < 400){          
+	    	console.log('success');
+		} else {
+		    console.log('error');
+		}
+	});
+
+	req.send("/delete_customer?id=" + id);                          
+
+}
