@@ -1,10 +1,10 @@
 <h1> <a href = "/"> TKO Restaurant </a> </h1>
 
-<h3> Adding a New Customer </h3>
+<h3> Adding a Employee </h3>
 
 <form id="addEmployee" action="http://flip3.engr.oregonstate.edu:6765">
-	First Name: <input type="text" name = "fname" id="fname"> <br> <br>
-	Last Name: <input type="text" name = "lname" id="lname"> <br> <br>
+	First Name: <input type="text" name = "fName" id="fName"> <br> <br>
+	Last Name: <input type="text" name = "lName" id="lName"> <br> <br>
 	<input type="submit" name="Add Employee" value = "Add Employee" id="addEmployeeButton"> </a>
 
 <h3> Employees Page </h3>
@@ -22,9 +22,9 @@
 		{{#each results}}
 			<tr>
 				<td> {{this.id}} </td>
-				<td> {{this.fname}} </td>
-				<td> {{this.lname}} </td>
-				<td><a href="/updateTable?id={{this.id}}"><input type="button" value="Update"></a></td>
+				<td> {{this.fName}} </td>
+				<td> {{this.lName}} </td>
+				<td><a href="/updateEmployee?id={{this.id}}"><input type="button" value="Update"></a></td>
                 <td>
                     <a href = "/"> <input type="button" name="delete" value="Delete" onClick="deleteData('employees',{{this.id}})">
                     <input type="hidden" id="delete{{this.id}}">

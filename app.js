@@ -100,7 +100,7 @@ app.get('/orders', function(req,res,next) {
 //to display all employees
 app.get('/employees', function(req,res,next) {
 	var context = {};
-	var createString = "SELECT id, fname, lname FROM employees;";
+	var createString = "SELECT id, fName, lName FROM employees;";
 	mysql.pool.query(createString, function(err, rows, fields){
 		if(err){
 			next(err);
@@ -110,8 +110,8 @@ app.get('/employees', function(req,res,next) {
 		for(var row in rows){
 			var addItem = {
 				'id':rows[row].id,
-				'fname':rows[row].fname,
-				'lname':rows[row].lname
+				'fName':rows[row].fName,
+				'lName':rows[row].lName
 			};
 			params.push(addItem);
 		}
@@ -164,9 +164,9 @@ app.get('/add_menu_item', function(req, res, next){
 //to add a new employee
 app.get('/add_employee', function(req, res, next){
 	var context = {};
-	mysql.pool.query("INSERT INTO employees (fname, lname) VALUES(?, ?)",
-		[req.query.fname, 
-		req.query.lname,],
+	mysql.pool.query("INSERT INTO employees (fName, lName) VALUES(?, ?)",
+		[req.query.fName, 
+		req.query.lName,],
 		function(err,result){
 			if(err){
 				next(err);
@@ -348,6 +348,67 @@ app.get('/menuUpdateReturn', function(req, res, next){
 				
 				context.results = params;
 				res.render('menu', context);
+			});
+		});
+		
+
+});
+
+//to update an employee
+app.get('/updateEmployee',function(req, res, next){
+    var context = {};
+    mysql.pool.query('SELECT * FROM employees WHERE id=?',   
+        [req.query.id], 
+        function(err, rows, fields){
+            if(err){
+                next(err);
+                return;
+            }
+            var params = [];
+
+            for(var row in rows){                           
+                var addItem = {	
+					'id':rows[row].id,
+					'fName':rows[row].fName,
+					'lName':rows[row].lName
+				};
+
+                params.push(addItem);
+            }
+
+        context.results = params[0];                     
+        res.render('updateEmployee', context);
+    });
+});
+
+app.get('/employeeUpdateReturn', function(req, res, next){
+    var context = {};
+	mysql.pool.query("UPDATE employees SET fName = ?, lName= ?  WHERE id = ?",
+		[req.query.fName,
+		req.query.lName,
+		req.query.id],
+		function(err, result){
+			if(err){
+				next(err);
+				return;
+			}
+			mysql.pool.query('SELECT * FROM `employees`', function(err, rows, fields){     
+				if(err){
+					next(err);
+					return;
+				}
+				var params = [];
+				for(var row in rows){
+					var addItem = {
+						'id':rows[row].id,
+						'fName':rows[row].fName,
+						'lName':rows[row].lName
+					};
+					params.push(addItem);
+				};
+				
+				context.results = params;
+				res.render('employees', context);
 			});
 		});
 		
