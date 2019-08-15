@@ -103,9 +103,6 @@ if (validButton){
 							"&lname="+addEmployee.elements.lname.value;
 
 
-		
-
-		
 		req.open("GET", "/add_employee?" + parameters, true);                
 		req.setRequestHeader('Content-Type','application/x-www-form-urlencoded');
 
@@ -135,6 +132,7 @@ function deleteData(tableId, id){
     
 	var req = new XMLHttpRequest();
 	
+	//switches will delete from different table based on what tableId was
 	switch(tableId){
 		case "customers":
 			req.open("GET", "/delete_customer?id=" + id, true); 

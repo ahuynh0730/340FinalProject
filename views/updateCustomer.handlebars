@@ -1,13 +1,11 @@
-<h1> <a href = "/"> TKO Restaurant </a> </h1>
+<h2>Update Customer</h2>
 
-<h3> Adding a New Customer </h3>
-
-<form id="addCustomer" action="http://flip3.engr.oregonstate.edu:6765">
-	First Name: <input type="text" name = "fname" id="fname"> <br> <br>
-	Last Name: <input type="text" name = "lname" id="lname"> <br> <br>
-	Address: <input type="text" name = "address" id="address"> <br> <br>
-	City: <input type="text" name = "city" id="city"> <br> <br>
-	State: <select name = "state" id="state">
+<form action="/customersUpdateReturn">
+    First Name:<input type="text" name="fname" id="fname" value="{{results.fname}}"><br><br>
+	Last Name: <input type="text" name = "lname" id="lname" value="{{results.lname}}"> <br> <br>
+   	Address: <input type="text" name = "address" id="address" value="{{results.address}}"> <br> <br>
+	City: <input type="text" name = "city" id="city" value="{{results.city}}"> <br> <br>
+	State: <select name = "state" id="state" value="{{results.state}}">
 				<option value="AL">Alabama</option>
 				<option value="AK">Alaska</option>
 				<option value="AZ">Arizona</option>
@@ -60,49 +58,7 @@
 				<option value="WI">Wisconsin</option>
 				<option value="WY">Wyoming</option>
 		</select>	<br> <br>
-	Zipcode: <input type="text" pattern="[0-9]{5}" name = "zipcode" id="zipcode"> <br> <br>
-	<input type="submit" name="Add Customer" value = "Add Customer" id="addCustomerButton"> </a>
+	Zipcode: <input type="text" pattern="[0-9]{5}" name = "zipcode" id="zipcode" value="{{results.zipcode}}"> <br> <br>
+    <input type="hidden" name="id" value={{results.id}}>
+    <input type="submit" name="updateCustomer" value="Update Customer" id="updateCustomer">
 </form>
-
-
-
-<h3> Customers Table </h3>
-
-<table id="customers">
-	<tr>
-		<th> ID </th>
-		<th> First Name </th>
-		<th> Last Name </th>
-		<th> Address </th>
-		<th> City </th>
-		<th> State </th>
-		<th> Zip Code </th>
-	</tr>
-	
-	
-
-	{{#if results}}
-		{{#each results}}
-			<tr>
-				<td> {{this.id}} </td>
-				<td> {{this.fname}} </td>
-				<td> {{this.lname}} </td>
-				<td> {{this.address}} </td>
-				<td> {{this.city}} </td>
-				<td> {{this.state}} </td>
-				<td> {{this.zipcode}} </td>
-				<td><a href="/updateCustomer?id={{this.id}}"><input type="button" value="Update"></a></td>
-                <td>
-                    <a href = "/"> <input type="button" name="delete" value="Delete" onClick="deleteData('customers',{{this.id}})">
-                    <input type="hidden" id="delete{{this.id}}">
-                </td>
-			</tr>
-		{{/each}}
-    {{/if}}
-	
-</table>
-
-
-
-
-

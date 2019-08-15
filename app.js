@@ -217,6 +217,78 @@ app.get('/delete_menu_item', function(req, res, next) {
     });
 });
 
+//to update a customer
+app.get('/updateCustomer',function(req, res, next){
+    var context = {};
+    mysql.pool.query('SELECT * FROM customers WHERE id=?',   
+        [req.query.id], 
+        function(err, rows, fields){
+            if(err){
+                next(err);
+                return;
+            }
+            var params = [];
+
+            for(var row in rows){                           
+                var addItem = {	'id':rows[row].id,
+								'fname':rows[row].fname,
+								'lname':rows[row].lname,
+								'address':rows[row].address,
+								'city':rows[row].city,
+								'state':rows[row].state,
+								'zipcode':rows[row].zipcode};
+
+                params.push(addItem);
+            }
+
+        context.results = params[0];                     
+        res.render('updateCustomer', context);
+    });
+});
+
+app.get('/customersUpdateReturn', function(req, res, next){
+    var context = {};
+	mysql.pool.query("UPDATE customers SET fname = ?, lname= ?, address = ?, city = ?, state = ?, zipcode = ?  WHERE id = ?",
+		[req.query.fname,
+		req.query.lname,
+		req.query.address,
+		req.query.city,
+		req.query.state,
+		req.query.zipcode,
+		req.query.id],
+		function(err, result){
+			if(err){
+				next(err);
+				return;
+			}
+			mysql.pool.query('SELECT * FROM `customers`', function(err, rows, fields){     
+				if(err){
+					next(err);
+					return;
+				}
+				var params = [];
+				for(var row in rows){
+					var addItem = {
+						'id':rows[row].id,
+						'fname':rows[row].fname,
+						'lname':rows[row].lname,
+						'address':rows[row].address,
+						'city':rows[row].city,
+						'state':rows[row].state,
+						'zipcode':rows[row].zipcode
+					};
+					params.push(addItem);
+				};
+				
+				context.results = params;
+				res.render('customers', context);
+			});
+		});
+		
+
+});
+
+
 
 app.use(function(req,res){
   res.status(404);
