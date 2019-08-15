@@ -288,6 +288,72 @@ app.get('/customersUpdateReturn', function(req, res, next){
 
 });
 
+//to update a menu item
+app.get('/updateMenu',function(req, res, next){
+    var context = {};
+    mysql.pool.query('SELECT * FROM menu_items WHERE id=?',   
+        [req.query.id], 
+        function(err, rows, fields){
+            if(err){
+                next(err);
+                return;
+            }
+            var params = [];
+
+            for(var row in rows){                           
+                var addItem = {	
+					'id':rows[row].id,
+					'item_name':rows[row].item_name,
+					'price':rows[row].price,
+					'type':rows[row].type,
+					'quantity':rows[row].quantity};
+
+                params.push(addItem);
+            }
+
+        context.results = params[0];                     
+        res.render('updateMenu', context);
+    });
+});
+
+app.get('/menuUpdateReturn', function(req, res, next){
+    var context = {};
+	mysql.pool.query("UPDATE menu_items SET item_name = ?, type= ?, price = ?, quantity = ?  WHERE id = ?",
+		[req.query.item_name,
+		req.query.type,
+		req.query.price,
+		req.query.quantity,
+		req.query.id],
+		function(err, result){
+			if(err){
+				next(err);
+				return;
+			}
+			mysql.pool.query('SELECT * FROM `menu_items`', function(err, rows, fields){     
+				if(err){
+					next(err);
+					return;
+				}
+				var params = [];
+				for(var row in rows){
+					var addItem = {
+						'id':rows[row].id,
+						'item_name':rows[row].item_name,
+						'type':rows[row].type,
+						'price':rows[row].price,
+						'quantity':rows[row].quantity
+					};
+					params.push(addItem);
+				};
+				
+				context.results = params;
+				res.render('menu', context);
+			});
+		});
+		
+
+});
+
 
 
 app.use(function(req,res){
