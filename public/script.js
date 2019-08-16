@@ -88,7 +88,7 @@ if (validButton){
 };
 
 //for when add employee button is pushed
-var validButton = document.getElementById('addEmployee');
+var validButton = document.getElementById('addEmployeeButton');
 if (validButton){
 
 	document.getElementById('addEmployeeButton').addEventListener('click',function(event){      	
@@ -99,8 +99,8 @@ if (validButton){
 		var req = new XMLHttpRequest();
 
 		
-		var parameters =	"fname="+addEmployee.elements.fname.value +    
-							"&lname="+addEmployee.elements.lname.value;
+		var parameters =	"fname="+addEmployee.elements.fName.value +    
+							"&lname="+addEmployee.elements.lName.value;
 
 
 		req.open("GET", "/add_employee?" + parameters, true);                
@@ -127,32 +127,41 @@ if (validButton){
 	});
 };
 
-var validButton = document.getElementById('addOrder');
+//for when add order button is pushed
+var validButton = document.getElementById('addOrderButton');
 if (validButton) {
-	document.getElementById('addOrderButton').addEventListener('click', function(event) {
-		var add order = document.getElementById('addOrder');
+	document.getElementById('addOrderButton').addEventListener('click',function(event){
+			var addOrder = document.getElementById('addOrder');
+			var req = new XMLHttpRequest();
+			
+			var parameters = 	"customerId="+addOrder.elements.customers.value +
+								"&isDelivery="+addOrder.elements.isDelivery.value +
+								"&employeeId="+addOrder.elements.employees.value;
+		req.open("GET", "/addOrderReturn?" + parameters, true);                
+		req.setRequestHeader('Content-Type','application/x-www-form-urlencoded');
 
-		var req = new XMLHttpRequest();
+		
+		req.addEventListener('load', function(){                        
+			if(req.status >= 200 && req.status < 400){
 
-		var parameters = "customer_id=" + addOrder.elements.customer +
-						 "employee_id=" + addOrder.elements.employee +
-						 "menu_item=" + addOrder.elements.menu_item;
+				
+				var response = JSON.parse(req.responseText);            
+				var id = response.inserted;
 
-	 	req.open("GET", "/add_order?" + parameters, true);
-	 	req.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-
-	 	req.addEventListener("load", function() {
-	 		if(req.status >= 200 && req.status < 400) {
-	 			var response = JSON.parse(req.responseText);
-	 			var id = response.inserted;
-	 		} else {
-	 			console.log("error");
-	 		}
-	 	});
-
-	 	req.send("/add_order?" + parameters);
+				
+				
+			}
+			else {
+				console.log("error");
+			}
+		});
+		
+		
+		req.send("/addOrderReturn?" + parameters);	
 	});
-}
+};
+
+
 
 //for deleting data
 function deleteData(tableId, id){                                

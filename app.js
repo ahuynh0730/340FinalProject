@@ -119,13 +119,16 @@ app.get('/orders', function(req,res,next) {
 
 //to add an order
 app.get('/addOrder', function(req, res, next) {
+	
+	//Get customers
 	var customers = {};
 	var createString = ""
 		+ "SELECT " 
 			+ " customers.id AS 'customerId',"
 			+ " CONCAT(customers.fname, ' ', customers.lname) AS 'customerName'"
 		+ " FROM customers";
-	//Get customers
+		
+	
 	mysql.pool.query(createString, function(err, rows, fields){
 		if (err){
 			next(err);
@@ -140,13 +143,16 @@ app.get('/addOrder', function(req, res, next) {
 			params.push(addItem);
 		}
 		customers = params;
+		
+		// Get employees
 		var employees = {};
 		var employeeString = ""
 			+ "SELECT "
 				+ " employees.id AS 'employeeID',"
 				+ " CONCAT(employees.fname, ' ', employees.lName) AS 'employeeName'"
 			+ " FROM employees";
-		// Get employees
+			
+		
 		mysql.pool.query(employeeString,function(err,rows,fields){
 			if (err){
 				next(err);
@@ -162,13 +168,15 @@ app.get('/addOrder', function(req, res, next) {
 			}
 
 			var employees = empParams;
+			
+			// Get Menu Items
 			var menuItems = {};
 			var menuItemsSql = ""
 				+ "SELECT "
 					+ " menu_items.id AS 'menuItemId',"
 					+ " item_name AS 'itemName'"
 				+ " FROM menu_items";
-			// Get Menu Items
+			
 			mysql.pool.query(menuItemsSql, function(err, rows, fields) {
 				if(err) {
 					next(err);
@@ -213,25 +221,7 @@ app.get('/employees', function(req,res,next) {
 	});
 });
 
-//to add a new order
-app.get('/add_order', function(req, res, next){
-	var context = {};
-	mysql.pool.query("INSERT INTO orders (cusomter_id, employee_id, is_delivery, order_date, delivery_date) VALUES(?, ?, ?, ?, ?, ?)",
-		[req.query.customer, 
-		req.query.employee,
-		req.query.is_delivery,
-		Date.now(),
-		Date.now(),
-		function(err,result){
-			if(err){
-				next(err);
-				return;
-			}
-			context.inserted = result.insertId;
-			res.send(JSON.stringify(context));
-		}
-	);
-});
+
 
 
 //to add a new customer
@@ -274,12 +264,30 @@ app.get('/add_menu_item', function(req, res, next){
 	);
 });
 
+//to add a new order
+app.get('/addOrderReturn', function(req, res, next) {
+	var context = {};
+	mysql.pool.query("INSERT INTO orders (customer_id, employee_id, is_delivery) VALUES (?, ?, ?)",
+		[req.query.customerId,
+		req.query.employeeId,
+		req.query.isDelivery],
+		function(err,result){
+			if(err){
+				next(err);
+				return;
+			}
+			context.inserted = result.insertId;
+			res.send(JSON.stringify(context));
+		}
+	);
+});
+
 //to add a new employee
 app.get('/add_employee', function(req, res, next){
 	var context = {};
 	mysql.pool.query("INSERT INTO employees (fName, lName) VALUES(?, ?)",
 		[req.query.fName, 
-		req.query.lName,],
+		req.query.lName],
 		function(err,result){
 			if(err){
 				next(err);

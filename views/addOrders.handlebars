@@ -2,7 +2,7 @@
 
 <h3> Add Order Page </h3>
 
-<form id="addOrder" action="http://flip3.engr.oregonstate.edu:9023">
+<form id="addOrder" action="/">
 	Customer: <select name = "customers" id="customers">
 		{{#if customers}}
 			{{#each customers}}
@@ -10,14 +10,18 @@
 			{{/each}}
 		{{/if}}
 		</select>	<br> <br>
-	Is Delivery?: <input type="radio" name = "yes" id="yes">Yes <input type="radio" name = "no" id="no"> No <br> <br>
-	Employee: <select name = "employees" id="employees">
-		{{#if employees}}
-			{{#each employees}}
-				<option value="{{this.employeeId}}">{{this.employeeName}}</option>
-			{{/each}}
-		{{/if}}	
+		
+	Is Delivery?: <input type="radio" name = "isDelivery" id="isDelivery" value="1">Yes <input type="radio" name = "isDelivery" id="isDelivery" value="0"> No <br> <br>
+	
+	Employee: 
+		<select name = "employees" id="employees">
+			{{#if employees}}
+				{{#each employees}}
+					<option value="{{this.employeeId}}">{{this.employeeName}}</option>
+				{{/each}}
+			{{/if}}	
 		</select>	<br> <br>
+		
 	Items: <select name = "menu" id="menu">
 		{{#if menuItems}}
 			{{#each menuItems}}
@@ -25,5 +29,5 @@
 			{{/each}}
 		{{/if}}
 		</select>	<br> <br>
-	<input type="submit" name="Add Order" value = "Add Order" id="addOrderButton"> </a>
+	<input type="submit" name="addOrderButton" value = "Add Order" id="addOrderButton"> 
 </form>
