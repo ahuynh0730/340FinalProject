@@ -117,6 +117,79 @@ app.get('/orders', function(req,res,next) {
 	});
 });
 
+//to add an order
+app.get('/addOrder', function(req, res, next) {
+	var customers = {};
+	var createString = ""
+		+ "SELECT " 
+			+ " customers.id AS 'customerId',"
+			+ " CONCAT(customers.fname, ' ', customers.lname) AS 'customerName'"
+		+ " FROM customers";
+	//Get customers
+	mysql.pool.query(createString, function(err, rows, fields){
+		if (err){
+			next(err);
+			return;
+		}
+		var params = [];
+		for (var row in rows){
+			var addItem = {
+				'customerId':rows[row].customerId,
+				'customerName':rows[row].customerName
+			};
+			params.push(addItem);
+		}
+		customers = params;
+		var employees = {};
+		var employeeString = ""
+			+ "SELECT "
+				+ " employees.id AS 'employeeID',"
+				+ " CONCAT(employees.fname, ' ', employees.lName) AS 'employeeName'"
+			+ " FROM employees";
+		// Get employees
+		mysql.pool.query(employeeString,function(err,rows,fields){
+			if (err){
+				next(err);
+				return;
+			}	
+			var empParams = [];
+			for (var row in rows){
+				var addItem = {
+					'employeeId':rows[row].employeeId,
+					'employeeName':rows[row].employeeName
+				};
+			empParams.push(addItem);
+			}
+
+			var employees = empParams;
+			var menuItems = {};
+			var menuItemsSql = ""
+				+ "SELECT "
+					+ " menu_items.id AS 'menuItemId',"
+					+ " item_name AS 'itemName'"
+				+ " FROM menu_items";
+			// Get Menu Items
+			mysql.pool.query(menuItemsSql, function(err, rows, fields) {
+				if(err) {
+					next(err);
+					return;
+				}
+				var menuItemParams = [];
+				for (var row in rows) {
+					var addItem = {
+						'menuItemId':rows[row].menuItemId,
+						'menuItemName':rows[row].itemName
+					};
+					menuItemParams.push(addItem);
+				}
+
+				menuItems = menuItemParams;
+				res.render('addOrders', {customers:customers, employees:employees, menuItems:menuItems});
+			});
+		});
+	});
+});
+
 //to display all employees
 app.get('/employees', function(req,res,next) {
 	var context = {};

@@ -1,29 +1,29 @@
 <h1> <a href = "/"> TKO Restaurant </a> </h1>
 
-<h3> Orders Page </h3>
+<h3> Add Order Page </h3>
 
 <form id="addOrder" action="http://flip3.engr.oregonstate.edu:9023">
 	Customer: <select name = "customers" id="customers">
-				{{#if results}}
-					{{#each results}}
-						<option value="\{this.customers.id}\" name="customer_id">{{this.customers.fname}}</option>
-					{{/each}}
-				{{/if}}
+		{{#if customers}}
+			{{#each customers}}
+				<option value="{{this.customerId}}">{{this.customerName}}</option>
+			{{/each}}
+		{{/if}}
 		</select>	<br> <br>
-	Is Delivery?: <input type="radio" name = "yes" id="yes"> <input type="radio" name = "no" id="no"> <br> <br>
+	Is Delivery?: <input type="radio" name = "yes" id="yes">Yes <input type="radio" name = "no" id="no"> No <br> <br>
 	Employee: <select name = "employees" id="employees">
-				{{#if results}}
-					{{#each results}}
-						<option value="\{this.employees.id}\">{{this.employees.fname}}</option>
-					{{/each}}
-				{{/if}}	
+		{{#if employees}}
+			{{#each employees}}
+				<option value="{{this.employeeId}}">{{this.employeeName}}</option>
+			{{/each}}
+		{{/if}}	
 		</select>	<br> <br>
-	Items: <select multiple="" name = "menu" id="menu">
-				{{#if results}}
-					{{#each results}}
-						<option value="\{this.menu_items.id}\">{{this.menu_items.name}}</option>
-					{{/each}}
-				{{/if}}
+	Items: <select name = "menu" id="menu">
+		{{#if menuItems}}
+			{{#each menuItems}}
+				<option value="{this.menuItemId}">{{this.menuItemName}}</option>
+			{{/each}}
+		{{/if}}
 		</select>	<br> <br>
-	<input type="submit" name="Add Order" value = "Add Orser" id="addOrderButton"> </a>
+	<input type="submit" name="Add Order" value = "Add Order" id="addOrderButton"> </a>
 </form>
