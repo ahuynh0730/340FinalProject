@@ -2,6 +2,32 @@
 
 <h3> Orders Page </h3>
 
+<form id="addOrder" action="http://flip3.engr.oregonstate.edu:9023">
+	Customer: <select name = "customers" id="customers">
+				{{#if results}}
+					{{#each results}}
+						<option value="\{this.customers.id}\">{{this.customers.fname}}</option>
+					{{/each}}
+				{{/if}}
+		</select>	<br> <br>
+	Is Delivery?: <input type="radio" name = "yes" id="yes"> <input type="radio" name = "no" id="no"> <br> <br>
+	Employee: <select name = "employees" id="employees">
+				{{#if results}}
+					{{#each results}}
+						<option value="\{this.employees.id}\">{{this.employees.fname}}</option>
+					{{/each}}
+				{{/if}}	
+		</select>	<br> <br>
+	Items: <select multiple="" name = "menu" id="menu">
+				{{#if results}}
+					{{#each results}}
+						<option value="\{this.menu_items.id}\">{{this.menu_items.name}}</option>
+					{{/each}}
+				{{/if}}
+		</select>	<br> <br>
+	<input type="submit" name="Add Orser" value = "Add Orser" id="addOrserButton"> </a>
+</form>
+
 <table>
 	<tr>
 		<th> ID </th>
