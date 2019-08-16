@@ -119,7 +119,7 @@ app.get('/orders', function(req,res,next) {
 
 //to add an order
 app.get('/addOrder', function(req, res, next) {
-	var context = {};
+	var customers = {};
 	var createString = ""
 		+ "SELECT " 
 			+ " customers.id AS 'customerId',"
@@ -138,8 +138,9 @@ app.get('/addOrder', function(req, res, next) {
 			};
 			params.push(addItem);
 		}
-		
-		/*var employeeString = ""
+		customers = params;
+		var employees = {};
+		var employeeString = ""
 			+ "SELECT "
 				+ " employees.id AS 'employeeID',"
 				+ " CONCAT(employees.fname, ' ', employees.lName) AS 'employeeName'"
@@ -157,10 +158,10 @@ app.get('/addOrder', function(req, res, next) {
 				};
 			empParams.push(addItem);
 			}
-			
-		});*/
-		context.results = params;
-		res.render('addOrders',context);
+
+			var employees = empParams;
+			res.render('addOrders', {customers:customers, employees:employees});
+		});
 	});
 });
 

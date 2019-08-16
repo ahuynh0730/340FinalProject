@@ -4,16 +4,16 @@
 
 <form id="addOrder" action="http://flip3.engr.oregonstate.edu:9023">
 	Customer: <select name = "customers" id="customers">
-				{{#if results}}
-					{{#each results}}
+				{{#if customers}}
+					{{#each customers}}
 						<option value="{{this.customerId}}">{{this.customerName}}</option>
 					{{/each}}
 				{{/if}}
 		</select>	<br> <br>
 	Is Delivery?: <input type="radio" name = "yes" id="yes">Yes <input type="radio" name = "no" id="no"> No <br> <br>
 	Employee: <select name = "employees" id="employees">
-				{{#if results}}
-					{{#each results}}
+				{{#if employees}}
+					{{#each employees}}
 						<option value="{{this.employeeId}}">{{this.employeeName}}</option>
 					{{/each}}
 				{{/if}}	
