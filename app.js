@@ -70,6 +70,7 @@ app.get('/menu', function(req,res,next) {
 		res.render('menu',context);
 	});
 });
+
 //to display all orders
 app.get('/orders', function(req,res,next) {
 	var context = {};
@@ -85,15 +86,10 @@ app.get('/orders', function(req,res,next) {
 			+ " order_items.quantity AS 'quantity',"
 			+ " order_items.price AS 'price'"
 		+ " FROM orders"
-	+ " INNER JOIN customers ON orders.customer_id = customers.id"
+	+ " RIGHT JOIN customers ON orders.customer_id = customers.id"
 	+ " LEFT JOIN employees ON orders.employee_id = employees.id"
 	+ " RIGHT JOIN order_items ON orders.id = order_items.order_id"
-	+ " INNER JOIN menu_items ON order_items.item_id = menu_items.id;"
-	+ "SELECT customers.id, customers.fname, customers.lname, "
-	+ "employees.id, employees.fName, employees.lName, menu_items.id, menu_items.item_name"
-	+ "FROM customers"
-	+ "INNER JOIN employees ON 1 = 1"
-	+ "INNER JOIN menu_items ON 1 = 1;";
+	+ " INNER JOIN menu_items ON order_items.item_id = menu_items.id;";
 	
 	mysql.pool.query(createString, function(err, rows, fields){
 		if(err){
@@ -114,12 +110,9 @@ app.get('/orders', function(req,res,next) {
 				'price':rows[row].price
 				
 			};
-			param.push(addItem);
+			params.push(addItem);
 		}
-		context.results[3] = params;
-		context.results[2] = params;
-		context.results[1] = params;
-		context.results[0] = params;
+		context.results = params;
 		res.render('orders',context);
 	});
 });
