@@ -140,6 +140,26 @@ app.get('/employees', function(req,res,next) {
 	});
 });
 
+//to add a new order
+app.get('/add_order', function(req, res, next){
+	var context = {};
+	mysql.pool.query("INSERT INTO orders (cusomter_id, employee_id, is_delivery, order_date, delivery_date) VALUES(?, ?, ?, ?, ?, ?)",
+		[req.query.customer, 
+		req.query.employee,
+		req.query.is_delivery,
+		Date.now(),
+		Date.now(),
+		function(err,result){
+			if(err){
+				next(err);
+				return;
+			}
+			context.inserted = result.insertId;
+			res.send(JSON.stringify(context));
+		}
+	);
+});
+
 
 //to add a new customer
 app.get('/add_customer', function(req, res, next){

@@ -6,7 +6,7 @@
 	Customer: <select name = "customers" id="customers">
 				{{#if results}}
 					{{#each results}}
-						<option value="\{this.customers.id}\">{{this.customers.fname}}</option>
+						<option value="\{this.customers.id}\" name="customer_id">{{this.customers.fname}}</option>
 					{{/each}}
 				{{/if}}
 		</select>	<br> <br>
