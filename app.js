@@ -125,6 +125,7 @@ app.get('/addOrder', function(req, res, next) {
 			+ " customers.id AS 'customerId',"
 			+ " CONCAT(customers.fname, ' ', customers.lname) AS 'customerName'"
 		+ " FROM customers";
+	//Get customers
 	mysql.pool.query(createString, function(err, rows, fields){
 		if (err){
 			next(err);
@@ -145,6 +146,7 @@ app.get('/addOrder', function(req, res, next) {
 				+ " employees.id AS 'employeeID',"
 				+ " CONCAT(employees.fname, ' ', employees.lName) AS 'employeeName'"
 			+ " FROM employees";
+		// Get employees
 		mysql.pool.query(employeeString,function(err,rows,fields){
 			if (err){
 				next(err);
@@ -160,7 +162,30 @@ app.get('/addOrder', function(req, res, next) {
 			}
 
 			var employees = empParams;
-			res.render('addOrders', {customers:customers, employees:employees});
+			var menuItems = {};
+			var menuItemsSql = ""
+				+ "SELECT "
+					+ " menu_items.id AS 'menuItemId',"
+					+ " item_name AS 'itemName'"
+				+ " FROM menu_items";
+			// Get Menu Items
+			mysql.pool.query(menuItemsSql, function(err, rows, fields) {
+				if(err) {
+					next(err);
+					return;
+				}
+				var menuItemParams = [];
+				for (var row in rows) {
+					var addItem = {
+						'menuItemId':rows[row].menuItemId,
+						'menuItemName':rows[row].itemName
+					};
+					menuItemParams.push(addItem);
+				}
+
+				menuItems = menuItemParams;
+				res.render('addOrders', {customers:customers, employees:employees, menuItems:menuItems});
+			});
 		});
 	});
 });

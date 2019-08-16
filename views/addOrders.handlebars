@@ -18,10 +18,10 @@
 					{{/each}}
 				{{/if}}	
 		</select>	<br> <br>
-	Items: <select multiple="" name = "menu" id="menu">
-				{{#if results}}
-					{{#each results}}
-						<option value="\{this.menu_items.id}\">{{this.menu_items.name}}</option>
+	Items: <select name = "menu" id="menu">
+				{{#if menuItems}}
+					{{#each menuItems}}
+						<option value="{this.menuItemId}">{{this.menuItemName}}</option>
 					{{/each}}
 				{{/if}}
 		</select>	<br> <br>
