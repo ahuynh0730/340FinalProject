@@ -86,7 +86,7 @@ app.get('/orders', function(req,res,next) {
 			+ " order_items.quantity AS 'quantity',"
 			+ " order_items.price AS 'price'"
 		+ " FROM orders"
-	+ " RIGHT JOIN customers ON orders.customer_id = customers.id"
+	+ " INNER JOIN customers ON orders.customer_id = customers.id"
 	+ " LEFT JOIN employees ON orders.employee_id = employees.id"
 	+ " RIGHT JOIN order_items ON orders.id = order_items.order_id"
 	+ " INNER JOIN menu_items ON order_items.item_id = menu_items.id;";
@@ -117,87 +117,6 @@ app.get('/orders', function(req,res,next) {
 	});
 });
 
-//to add an order
-app.get('/addOrder', function(req, res, next) {
-	
-	//Get customers
-	var customers = {};
-	var createString = ""
-		+ "SELECT " 
-			+ " customers.id AS 'customerId',"
-			+ " CONCAT(customers.fname, ' ', customers.lname) AS 'customerName'"
-		+ " FROM customers";
-		
-	
-	mysql.pool.query(createString, function(err, rows, fields){
-		if (err){
-			next(err);
-			return;
-		}
-		var params = [];
-		for (var row in rows){
-			var addItem = {
-				'customerId':rows[row].customerId,
-				'customerName':rows[row].customerName
-			};
-			params.push(addItem);
-		}
-		customers = params;
-		
-		// Get employees
-		var employees = {};
-		var employeeString = ""
-			+ "SELECT "
-				+ " employees.id AS 'employeeID',"
-				+ " CONCAT(employees.fname, ' ', employees.lName) AS 'employeeName'"
-			+ " FROM employees";
-			
-		
-		mysql.pool.query(employeeString,function(err,rows,fields){
-			if (err){
-				next(err);
-				return;
-			}	
-			var empParams = [];
-			for (var row in rows){
-				var addItem = {
-					'employeeId':rows[row].employeeId,
-					'employeeName':rows[row].employeeName
-				};
-			empParams.push(addItem);
-			}
-
-			var employees = empParams;
-			
-			// Get Menu Items
-			var menuItems = {};
-			var menuItemsSql = ""
-				+ "SELECT "
-					+ " menu_items.id AS 'menuItemId',"
-					+ " item_name AS 'itemName'"
-				+ " FROM menu_items";
-			
-			mysql.pool.query(menuItemsSql, function(err, rows, fields) {
-				if(err) {
-					next(err);
-					return;
-				}
-				var menuItemParams = [];
-				for (var row in rows) {
-					var addItem = {
-						'menuItemId':rows[row].menuItemId,
-						'menuItemName':rows[row].itemName
-					};
-					menuItemParams.push(addItem);
-				}
-
-				menuItems = menuItemParams;
-				res.render('addOrders', {customers:customers, employees:employees, menuItems:menuItems});
-			});
-		});
-	});
-});
-
 //to display all employees
 app.get('/employees', function(req,res,next) {
 	var context = {};
@@ -220,8 +139,6 @@ app.get('/employees', function(req,res,next) {
 		res.render('employees',context);
 	});
 });
-
-
 
 
 //to add a new customer
@@ -264,30 +181,12 @@ app.get('/add_menu_item', function(req, res, next){
 	);
 });
 
-//to add a new order
-app.get('/addOrderReturn', function(req, res, next) {
-	var context = {};
-	mysql.pool.query("INSERT INTO orders (customer_id, employee_id, is_delivery) VALUES (?, ?, ?)",
-		[req.query.customerId,
-		req.query.employeeId,
-		req.query.isDelivery],
-		function(err,result){
-			if(err){
-				next(err);
-				return;
-			}
-			context.inserted = result.insertId;
-			res.send(JSON.stringify(context));
-		}
-	);
-});
-
 //to add a new employee
 app.get('/add_employee', function(req, res, next){
 	var context = {};
 	mysql.pool.query("INSERT INTO employees (fName, lName) VALUES(?, ?)",
 		[req.query.fName, 
-		req.query.lName],
+		req.query.lName,],
 		function(err,result){
 			if(err){
 				next(err);

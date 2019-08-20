@@ -88,7 +88,7 @@ if (validButton){
 };
 
 //for when add employee button is pushed
-var validButton = document.getElementById('addEmployeeButton');
+var validButton = document.getElementById('addEmployee');
 if (validButton){
 
 	document.getElementById('addEmployeeButton').addEventListener('click',function(event){      	
@@ -99,8 +99,8 @@ if (validButton){
 		var req = new XMLHttpRequest();
 
 		
-		var parameters =	"fname="+addEmployee.elements.fName.value +    
-							"&lname="+addEmployee.elements.lName.value;
+		var parameters =	"fName="+addEmployee.elements.fName.value +    
+							"&lName="+addEmployee.elements.lName.value;
 
 
 		req.open("GET", "/add_employee?" + parameters, true);                
@@ -126,42 +126,6 @@ if (validButton){
 		req.send("/add_employee?" + parameters);	
 	});
 };
-
-//for when add order button is pushed
-var validButton = document.getElementById('addOrderButton');
-if (validButton) {
-	document.getElementById('addOrderButton').addEventListener('click',function(event){
-			var addOrder = document.getElementById('addOrder');
-			var req = new XMLHttpRequest();
-			
-			var parameters = 	"customerId="+addOrder.elements.customers.value +
-								"&isDelivery="+addOrder.elements.isDelivery.value +
-								"&employeeId="+addOrder.elements.employees.value;
-		req.open("GET", "/addOrderReturn?" + parameters, true);                
-		req.setRequestHeader('Content-Type','application/x-www-form-urlencoded');
-
-		
-		req.addEventListener('load', function(){                        
-			if(req.status >= 200 && req.status < 400){
-
-				
-				var response = JSON.parse(req.responseText);            
-				var id = response.inserted;
-
-				
-				
-			}
-			else {
-				console.log("error");
-			}
-		});
-		
-		
-		req.send("/addOrderReturn?" + parameters);	
-	});
-};
-
-
 
 //for deleting data
 function deleteData(tableId, id){                                
