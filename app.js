@@ -266,10 +266,12 @@ app.get('/add_employee', function(req, res, next){
 //to add a new order
 app.get('/add_order', function (req, res, next){
 	var context = {};
+	var currentDate = new Date();
+	currentDate = currentDate.getFullYear() + '-' + (currentDate.getMonth() + 1) + '-' + currentDate.getDate(); 
 	mysql.pool.query("INSERT INTO orders (customer_id, is_delivery, order_date) VALUES (?, ?, ?)",
 		[req.query.customer_id,
 		req.query.isDelivery,
-		Date.now()],
+		currentDate],
 		function(err,result){
 			if(err){
 				next(err);
