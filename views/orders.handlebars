@@ -1,6 +1,44 @@
 <h1> <a href = "/"> TKO Restaurant </a> </h1>
 
-<h3> Orders Page </h3>
+<h3> Add an Order </h3>
+
+<form id="addOrder" action="/">
+	Customer: 	
+		<select name = "customers" id="customers">
+			{{#if customers}}
+				{{#each customers}}
+					<option value="{{this.id}}">{{this.customerName}}</option>
+				{{/each}}
+			{{/if}}
+		</select>	<br> <br>
+	
+	Is Delivery?: <input type="radio" name = "isDelivery" id="isDelivery" value="1">Yes <input type="radio" name = "isDelivery" id="isDelivery" value="0"> No <br> <br>
+
+	
+	Employee: 
+		<select name = "employees" id="employees">
+			{{#if employees}}
+				{{#each employees}}
+					<option value="{{this.id}}">{{this.employeeName}}</option>
+				{{/each}}
+			{{/if}}	
+		</select>	<br> <br>
+		
+	Item:
+		<select name ="items" id="items">
+			{{#if items}}
+				{{#each items}}
+					<option value="{{this.id}}">{{this.item_name}} </option>
+				{{/each}}
+			{{/if}}
+		</select> 
+		
+		Quantity:
+		
+	<input type="submit" name="Add Order" value = "Add Order" id="addOrderButton"> </a>
+</form>
+
+<h3> Orders Information </h3>
 
 <table>
 	<tr>

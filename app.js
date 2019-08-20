@@ -91,6 +91,7 @@ app.get('/orders', function(req,res,next) {
 	+ " RIGHT JOIN order_items ON orders.id = order_items.order_id"
 	+ " INNER JOIN menu_items ON order_items.item_id = menu_items.id;";
 	
+	//query to get order information
 	mysql.pool.query(createString, function(err, rows, fields){
 		if(err){
 			next(err);
@@ -113,7 +114,71 @@ app.get('/orders', function(req,res,next) {
 			params.push(addItem);
 		}
 		context.results = params;
-		res.render('orders',context);
+		
+		//query to get customers
+		var queryString = ""
+			+ "SELECT id, "
+				+ "CONCAT(fname, ' ', lname) AS 'customerName' "
+			+ "FROM customers;";
+		mysql.pool.query(queryString, function(err, rows, fields){
+			if(err){
+				next(err);
+				return;
+			}
+			var params = [];
+			for(var row in rows){
+				var addItem = {
+					'id':rows[row].id,
+					'customerName':rows[row].customerName
+					
+				};
+				params.push(addItem);
+			}
+			context.customers = params;
+
+		});
+		
+		//query to get employees
+		var queryString = ""
+			+ "SELECT id, "
+				+ "CONCAT(fName, ' ', lName) AS 'employeeName' "
+			+ "FROM employees;";
+		mysql.pool.query(queryString, function(err, rows, fields){
+			if(err){
+				next(err);
+				return;
+			}
+			var params = [];
+			for(var row in rows){
+				var addItem = {
+					'id':rows[row].id,
+					'employeeName':rows[row].employeeName
+					
+				};
+				params.push(addItem);
+			}
+			context.employees = params;
+			//res.render('orders', context);
+		});
+	
+		//query to get items
+		var queryString = "SELECT id, item_name FROM menu_items;";
+		mysql.pool.query(queryString, function(err, rows, fields){
+			if(err){
+				next(err);
+				return;
+			}
+			var params = [];
+			for(var row in rows){
+				var addItem = {
+					'item_name':rows[row].item_name
+				};
+				params.push(addItem);
+			}
+			context.items = params;
+			res.render('orders', context);
+		});
+		
 	});
 });
 
@@ -187,6 +252,24 @@ app.get('/add_employee', function(req, res, next){
 	mysql.pool.query("INSERT INTO employees (fName, lName) VALUES(?, ?)",
 		[req.query.fName, 
 		req.query.lName,],
+		function(err,result){
+			if(err){
+				next(err);
+				return;
+			}
+			context.inserted = result.insertId;
+			res.send(JSON.stringify(context));
+		}
+	);
+});
+
+//to add a new order
+app.get('/add_order', function (req, res, next){
+	var context = {};
+	mysql.pool.query("INSERT INTO orders (customer_id, is_delivery, order_date) VALUES (?, ?, ?)",
+		[req.query.customer_id,
+		req.query.isDelivery,
+		Date.now()],
 		function(err,result){
 			if(err){
 				next(err);

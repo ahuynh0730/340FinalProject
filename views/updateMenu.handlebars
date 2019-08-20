@@ -2,11 +2,12 @@
 
 <form action="/menuUpdateReturn">
     Item Name: <input type="text" name = "item_name" id="item_name" value="{{results.item_name}}"> <br> <br>
-	Item Type: 	<select name = "type" id="type" value="{{results.type}}">
-					<option value = "Food"> Food </option>
-					<option value = "Beverage"> Beverage </option>
-					<option value = "Alcohol"> Alcohol </option>
-				</select>	<br> <br>
+	Item Type: 	
+		<select name = "type" id="type" value="{{results.type}}">
+			<option value = "Food"> Food </option>
+			<option value = "Beverage"> Beverage </option>
+			<option value = "Alcohol"> Alcohol </option>
+		</select>	<br> <br>
 	Price: <input type="number" name = "price" id="price" step=".01" value="{{results.price}}"> <br> <br>
 	Quantity: <input type="number" name = "quantity" id="quantity" step="1" value="{{results.quantity}}"> <br> <br>
 	

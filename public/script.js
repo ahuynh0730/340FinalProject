@@ -127,6 +127,49 @@ if (validButton){
 	});
 };
 
+
+//for when add order button is pushed
+var validButton = document.getElementById('addOrderButton');
+if (validButton){
+
+	document.getElementById('addOrderButton').addEventListener('click',function(event){      	
+		
+		var addMenuItem = document.getElementById("addOrder");               
+
+		
+		var req = new XMLHttpRequest();
+
+		
+		var parameters =	"customer_id="+addOrder.elements.customers.value +    
+							"&isDelivery="+addOrder.elements.isDelivery.value;
+
+		
+
+		
+		req.open("GET", "/add_order?" + parameters, true);                
+		req.setRequestHeader('Content-Type','application/x-www-form-urlencoded');
+
+		
+		req.addEventListener('load', function(){                        
+			if(req.status >= 200 && req.status < 400){
+
+				
+				var response = JSON.parse(req.responseText);            
+				var id = response.inserted;
+
+				
+				
+			}
+			else {
+				console.log("error");
+			}
+		});
+		
+		
+		req.send("/add_order?" + parameters);	
+	});
+};
+
 //for deleting data
 function deleteData(tableId, id){                                
     
