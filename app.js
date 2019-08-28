@@ -266,12 +266,22 @@ app.get('/add_employee', function(req, res, next){
 //to add a new order
 app.get('/add_order', function (req, res, next){
 	var context = {};
+	
 	var currentDate = new Date();
 	currentDate = currentDate.getFullYear() + '-' + (currentDate.getMonth() + 1) + '-' + currentDate.getDate(); 
-	mysql.pool.query("INSERT INTO orders (customer_id, is_delivery, order_date) VALUES (?, ?, ?)",
+	
+	//will set employeeId to employee's id if order is a delivery
+	var employeeId;
+	if (req.query.isDelivery == 1){
+		employeeId = req.query.employee_id;
+	}
+	
+	//query
+	mysql.pool.query("INSERT INTO orders (customer_id, is_delivery, order_date, employee_id) VALUES (?, ?, ?, ?)",
 		[req.query.customer_id,
 		req.query.isDelivery,
-		currentDate],
+		currentDate,
+		employeeId],
 		function(err,result){
 			if(err){
 				next(err);

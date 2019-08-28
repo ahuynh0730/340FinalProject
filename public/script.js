@@ -142,7 +142,8 @@ if (validButton){
 
 		
 		var parameters =	"customer_id="+addOrder.elements.customers.value +    
-							"&isDelivery="+addOrder.elements.isDelivery.value;
+							"&isDelivery="+addOrder.elements.isDelivery.value +
+							"&employee_id="+addOrder.elements.employees.value;
 
 		
 
