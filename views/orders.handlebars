@@ -43,8 +43,20 @@
 			{{/if}}
 		</select> 
 		
-		Quantity:
+	Quantity: 
+		<input type="number" name="quantity" id="quantity" min="1"> </input>
+	</br> </br>
 		
+	
+
+	<div class ="reveal-if-active">	
+		Delivery Date: </br>
+			Month: <input type="number" name="deliveryMonth" id="deliveryMonth" min="1" max = "12" step = "1"> </input>
+			Day: <input type="number" name="deliveryDay" id="deliveryDay" min="1" max = "31" step = "1"> </input>
+			Year: <input type="number" name="deliveryYear" id="deliveryYear" min="2019" step = "1"> </input> 
+	</div>
+	
+	</br>
 	<input type="submit" name="Add Order" value = "Add Order" id="addOrderButton"> </a>
 </form>
 
