@@ -1,5 +1,6 @@
 <h1> <a href = "/"> TKO Restaurant </a> </h1>
 
+
 <h3> Add an Order </h3>
 
 <form id="addOrder" action="/">
@@ -12,17 +13,26 @@
 			{{/if}}
 		</select>	<br> <br>
 	
-	Is Delivery?: <input type="radio" name = "isDelivery" id="isDelivery" value="1">Yes <input type="radio" name = "isDelivery" id="isDelivery" value="0"> No <br> <br>
+	
+	Is Delivery?: 
+		<input type="radio" name = "isDelivery" id="notDelivery" class="isDeliveryRadio" value="0" onclick="deliveryCheck(0);"> No 
+		<input type="radio" name = "isDelivery" id="isDelivery" class="isDeliveryRadio" value="1" onclick="deliveryCheck(1);"> Yes <br> <br>
+	
+	<div class ="reveal-if-active">	
+		Employee: 
+			<select name = "employees" id="employees">
+				{{#if employees}}
+					{{#each employees}}
+						<option value="{{this.id}}">{{this.employeeName}}</option>
+					{{/each}}
+				{{/if}}	
+			</select>	<br> <br>
+	</div>
 
 	
-	Employee: 
-		<select name = "employees" id="employees">
-			{{#if employees}}
-				{{#each employees}}
-					<option value="{{this.id}}">{{this.employeeName}}</option>
-				{{/each}}
-			{{/if}}	
-		</select>	<br> <br>
+		
+	
+			
 		
 	Item:
 		<select name ="items" id="items">

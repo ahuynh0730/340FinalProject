@@ -128,9 +128,10 @@ if (validButton){
 };
 
 
-//for when add order button is pushed
+//for when add order button is pushed 
 var validButton = document.getElementById('addOrderButton');
 if (validButton){
+
 
 	document.getElementById('addOrderButton').addEventListener('click',function(event){      	
 		
@@ -209,4 +210,20 @@ function deleteData(tableId, id){
 			break;
 	}			
 
+}
+
+//will display additional forms if order is a delivery
+function deliveryCheck(val){
+	
+	var x = document.getElementsByClassName('reveal-if-active');
+	if (val == 1){
+		for (var i = 0; i < x.length; i++){
+			x[i].style.visibility = 'visible';
+		}
+	}
+	else{
+		for (var i = 0; i < x.length; i++){
+			x[i].style.visibility = 'hidden';
+		}
+	}
 }
