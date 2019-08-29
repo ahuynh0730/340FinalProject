@@ -267,20 +267,20 @@ app.get('/add_employee', function(req, res, next){
 app.get('/add_order', function (req, res, next){
 	var context = {};
 	
-	var currentDate = new Date();
-	//currentDate = currentDate.getFullYear() + '-' + (currentDate.getMonth() + 1) + '-' + currentDate.getDate(); 
 	
+	var currentDate = new Date();
 	var deliveryDate = new Date();
-	//will set employeeId to employee's id if order is a delivery
+	
+	
+	//will set employeeId to employee's id and delivery_date to proper day if order is a delivery
 	var employeeId;
 	if (req.query.isDelivery == 1){
 		employeeId = req.query.employee_id;
-		console.log("Month: " + req.query.deliveryMonth + " Day: " + req.query.deliveryDay);
 		deliveryDate = req.query.deliveryYear + '-' + req.query.deliveryMonth + '-' + req.query.deliveryDay;
 	}
 	
 	//query
-	mysql.pool.query("INSERT INTO orders (customer_id, is_delivery, order_date, employee_id, delivery_date) VALUES (?, ?, ?, ?, ?)",
+	mysql.pool.query("INSERT INTO orders (customer_id, is_delivery, order_date, employee_id, delivery_date) VALUES (?, ?, ?, ?, ?);",
 		[req.query.customer_id,
 		req.query.isDelivery,
 		currentDate,
@@ -291,10 +291,24 @@ app.get('/add_order', function (req, res, next){
 				next(err);
 				return;
 			}
+			
+			var orderId;
+			var createString = "SELECT MAX(id) AS id FROM orders;";
+			mysql.pool.query(createString, function(err, rows, fields){
+				if(err){
+					next(err);
+					return;
+				}
+				orderId = rows[0].id;
+				console.log("order id is: " + orderId);
+			});
+			
 			context.inserted = result.insertId;
 			res.send(JSON.stringify(context));
 		}
 	);
+	
+	
 });
 
 //to delete from customer table
