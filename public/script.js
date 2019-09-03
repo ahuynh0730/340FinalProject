@@ -146,7 +146,9 @@ if (validButton){
 							"&employee_id="+addOrder.elements.employees.value + 
 							"&deliveryYear="+addOrder.elements.deliveryYear.value +
 							"&deliveryMonth="+addOrder.elements.deliveryMonth.value + 
-							"&deliveryDay="+addOrder.elements.deliveryDay.value;
+							"&deliveryDay="+addOrder.elements.deliveryDay.value +
+							"&items="+addOrder.elements.items.value +
+							"&quantity="+addOrder.elements.quantity.value;
 
 		
 
@@ -173,6 +175,8 @@ if (validButton){
 		
 		req.send("/add_order?" + parameters);	
 	});
+	
+
 };
 
 //for deleting data
@@ -231,3 +235,4 @@ function deliveryCheck(val){
 		}
 	}
 }
+

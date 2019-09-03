@@ -3,6 +3,7 @@ var mysql = require('./dbcon.js');
 var app = express();
 var bodyParser = require("body-parser"); 
 var handlebars = require('express-handlebars').create({defaultLayout:'main'});
+const util = require('util');
 
 app.engine('handlebars', handlebars.engine);
 app.set('view engine', 'handlebars');
@@ -162,7 +163,7 @@ app.get('/orders', function(req,res,next) {
 		});
 	
 		//query to get items
-		var queryString = "SELECT id, item_name FROM menu_items;";
+		var queryString = "SELECT id, item_name, price FROM menu_items;";
 		mysql.pool.query(queryString, function(err, rows, fields){
 			if(err){
 				next(err);
@@ -171,7 +172,9 @@ app.get('/orders', function(req,res,next) {
 			var params = [];
 			for(var row in rows){
 				var addItem = {
-					'item_name':rows[row].item_name
+					'id':rows[row].id,
+					'item_name':rows[row].item_name,
+					'price':rows[row].price
 				};
 				params.push(addItem);
 			}
@@ -263,10 +266,18 @@ app.get('/add_employee', function(req, res, next){
 	);
 });
 
+function sleep(miliseconds) {
+   var currentTime = new Date().getTime();
+
+   while (currentTime + miliseconds >= new Date().getTime()) {
+   }
+}
+
+
+
 //to add a new order
 app.get('/add_order', function (req, res, next){
 	var context = {};
-	
 	
 	var currentDate = new Date();
 	var deliveryDate = new Date();
@@ -292,22 +303,52 @@ app.get('/add_order', function (req, res, next){
 				return;
 			}
 			
-			var orderId;
-			var createString = "SELECT MAX(id) AS id FROM orders;";
-			mysql.pool.query(createString, function(err, rows, fields){
-				if(err){
-					next(err);
-					return;
-				}
-				orderId = rows[0].id;
-				console.log("order id is: " + orderId);
-			});
+			
 			
 			context.inserted = result.insertId;
 			res.send(JSON.stringify(context));
 		}
 	);
 	
+	//will set orderId to highest order id, which should be newest one
+	sleep(1000);
+	var orderId;
+	var itemPrice;
+	var createString = "SELECT MAX(id) AS id FROM orders;";
+	mysql.pool.query(createString, function(err, rows, fields){
+		if(err){
+			next(err);
+			return;
+		}
+		orderId = rows[0].id;
+		
+		//will get item price to use for calculating total
+		var queryString = "SELECT price FROM menu_items WHERE id = " + 
+			req.query.items + ";";
+		mysql.pool.query(queryString, function(err, rows, fields){
+			if (err){
+				next(err);
+				return;
+			}
+		itemPrice = rows[0].price;
+		totalItemPrice = itemPrice * req.query.quantity;
+		
+		//inserting into order_items
+		var insertString = "INSERT INTO order_items (order_id, item_id, quantity, price) VALUES (?, ?, ?, ?);";
+		mysql.pool.query(insertString, 
+			[orderId, 
+			req.query.items,
+			req.query.quantity,
+			totalItemPrice],
+			function(err, result){
+				if (err){
+					next(err);
+					return;
+				}
+			}
+		)
+		});
+	});
 	
 });
 
